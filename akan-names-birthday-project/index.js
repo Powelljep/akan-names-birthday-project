@@ -9,19 +9,26 @@ let day = "";
 let dayOfTheWeek= "";
 let akanName = ""
 
-const getGenderName = () => {
-    const fGender = document.getElementById("female").value;
-    const mGender = document.getElementById("male").value;
-    if(fGender) {
-        return getAkanName(femaleNames)
-    } else if( mGender) {
-        return getAkanName(maleNames)
+const displayAkanName = () => {
+    const fGender = document.getElementById("female");
+    const mGender = document.getElementById("male");
+    if(fGender.checked) {
+        mGender.checked = false;
+        getAkanName(femaleNames);
+        document.getElementById("show-akan-name").innerHTML =`Your Akan name is: ${akanName}`
+        document.getElementById("show-akan-name").style.display = 'block'
+    } else if( mGender.checked) {
+        mGender.checked = false
+        getAkanName(maleNames);
+        console.log("Akan name "+akanName)
+        document.getElementById("show-akan-name").innerHTML =`Your Akan name is: ${akanName}`
+        document.getElementById("show-akan-name").style.display = 'block';
     }
 }
 
 const getAkanName = (genderArray) => {
     for(let i = 0; i<genderArray.length; i++){
-        if(daysOfTheWeek[i]=== dayOfTheWeek){
+        if(daysOfTheWeek[i]=== daysOfTheWeek[dayOfTheWeek-1]){
             akanName = genderArray[i];
         }
     }
@@ -40,7 +47,7 @@ const getUserInput = function (event) {
     year = parseInt(dateDetails[0].slice(2,4));
     month = parseInt(dateDetails[1]);
     day = parseInt(dateDetails[2]);
-    dayOfTheWeek = calculateDayOfTheWeek(century,year,month,day)
-    console.log(month);
+    dayOfTheWeek = Math.floor(calculateDayOfTheWeek(century,year,month,day).toFixed())
+    displayAkanName();
     
 }
